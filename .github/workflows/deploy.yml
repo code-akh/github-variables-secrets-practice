@@ -9,8 +9,10 @@ env:
   PORT: 8080
 jobs:
   test:
+    environment: SIT
     env:
-      MONGODB_CLUSTER_ADDRESS: clustertest.qvatewz.mongodb.net
+      # MONGODB_CLUSTER_ADDRESS: clustertest.qvatewz.mongodb.net
+      MONGODB_CLUSTER_ADDRESS: ${{ vars.MONGODB_CLUSTER_ADDRESS }}
       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
     runs-on: ubuntu-latest
@@ -32,6 +34,7 @@ jobs:
         run: |
           echo "MONGODB_USERNAME :" ${{ env.MONGODB_USERNAME }} 
           echo "MONGODB_PASSWORD :" ${{ env.MONGODB_PASSWORD }}
+          echo "MONGODB_CLUSTER_ADDRESS :" $MONGODB_CLUSTER_ADDRESS
   deploy:
     needs: test
     runs-on: ubuntu-latest
